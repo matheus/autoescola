@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autoescola Aline - Sua CNH com Confiança</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts (Poppins) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Ícone do WhatsApp -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        /* Aplicando a fonte Poppins como padrão */
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        /* Cor personalizada baseada no azul do logo */
+        .text-logo-blue {
+            color: #1E6A9C;
+        }
+        /* Cor personalizada baseada no vermelho do logo */
+        .bg-logo-red {
+            background-color: #D83C3C;
+        }
+        .shadow-logo-red {
+            box-shadow: 0 10px 15px -3px rgba(216, 60, 60, 0.2), 0 4px 6px -2px rgba(216, 60, 60, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800">
+
+    <div class="flex flex-col items-center justify-center min-h-screen p-6">
+        
+        <header class="mb-8 md:mb-12">
+            <!-- Logotipo da empresa (imagem) -->
+            <img src="logo.png" alt="Logotipo da Autoescola Aline" class="w-72 h-auto">
+        </header>
+
+        <main class="text-center flex-grow flex flex-col items-center justify-center">
+            <!-- Frase de Impacto -->
+            <h2 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase leading-tight md:leading-snug max-w-4xl text-gray-900">
+                Sua jornada para a <span class="text-logo-blue">liberdade</span> começa aqui.
+            </h2>
+
+            <!-- Botão de Orçamento -->
+            <div class="mt-12 md:mt-16">
+                <!-- IMPORTANTE: Substitua 'SEUNUMERO' pelo número de WhatsApp da sua empresa, incluindo o código do país (ex: 5511999998888) -->
+                <a href="https://wa.me/5516999637970?text=Olá!%20Gostaria%20de%20um%20orçamento%20para%20tirar%20minha%20CNH." 
+                   target="_blank"
+                   class="inline-flex items-center gap-3 bg-logo-red text-white font-bold text-lg md:text-xl py-4 px-8 rounded-full shadow-logo-red transform hover:scale-105 transition-transform duration-300 ease-in-out">
+                    <i class="fab fa-whatsapp text-2xl"></i>
+                    <span>Pedir Orçamento no WhatsApp</span>
+                </a>
+            </div>
+        </main>
+
+        <footer class="text-center text-gray-400 mt-8">
+            <p>&copy; 2024 Autoescola Aline. Todos os direitos reservados.</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
