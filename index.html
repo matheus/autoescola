@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
     
-    <!-- Ícone do WhatsApp -->
+    <!-- Ícones (Font Awesome) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <style>
@@ -49,11 +49,12 @@
         .delay-400 { animation-delay: 0.4s; }
         .delay-600 { animation-delay: 0.6s; }
         .delay-800 { animation-delay: 0.8s; }
+        .delay-1000 { animation-delay: 1.0s; }
     </style>
 </head>
 <body class="bg-white text-gray-800">
 
-    <div class="flex flex-col items-center justify-center min-h-screen p-6 overflow-hidden">
+    <div class="flex flex-col items-center justify-center min-h-screen py-12 px-6 overflow-hidden">
         
         <header class="mb-8 md:mb-12 fade-in-element">
             <!-- Logotipo da empresa (imagem) -->
@@ -78,7 +79,61 @@
             </div>
         </main>
 
-        <footer class="text-center text-gray-400 mt-8 fade-in-element delay-600">
+        <!-- Seção de Avaliações -->
+        <section class="w-full max-w-5xl mt-20 text-center fade-in-element delay-600">
+            <h3 class="text-3xl font-bold text-gray-800 mb-10">O que nossos alunos dizem</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Avaliação 1 -->
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-200 h-full">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-red-500 text-white flex items-center justify-center text-xl font-bold mr-4">K</div>
+                        <div>
+                            <p class="font-bold text-left">Krissie V.</p>
+                            <div class="text-yellow-400 flex">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-left">"Ótimo atendimento, professores muito bons e simpáticos. E um ótimo preço 😁 Sem dúvidas a melhor da cidade 😊😊"</p>
+                </div>
+                <!-- Avaliação 2 -->
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-200 h-full">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center text-xl font-bold mr-4">D</div>
+                        <div>
+                            <p class="font-bold text-left">Daniel L.</p>
+                            <div class="text-yellow-400 flex">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-left">"Equipe muito prestativa e eficiente, tirei minha habilitação muito rápido. Recomendo a todos na fase de se habilitarem."</p>
+                </div>
+                <!-- Avaliação 3 -->
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-200 h-full">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-green-500 text-white flex items-center justify-center text-xl font-bold mr-4">G</div>
+                        <div>
+                            <p class="font-bold text-left">Giovanna Q.</p>
+                            <div class="text-yellow-400 flex">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-left">"Recepcionista super atenciosa, instrutores muito bem capacitados e simpáticos, ambiente super tranquilo."</p>
+                </div>
+            </div>
+            <div class="mt-12">
+                 <a href="https://www.google.com/maps/place/Autoescola+Aline+Jaboticabal/@-21.2594503,-48.3216498,17z/data=!4m15!1m8!3m7!1s0x94b96b62820c2267:0x9535adca2b99d506!2sR.+Floriano+Peixoto,+552+-+Centro,+Jaboticabal+-+SP,+14870-370!3b1!8m2!3d-21.2594553!4d-48.3190749!16s%2Fg%2F11c1hm2tyw!3m5!1s0x94b96b002653bab5:0xd3ab53be7f186b98!8m2!3d-21.259509!4d-48.3190932!16s%2Fg%2F11lmhvwnp6?entry=ttu&g_ep=EgoyMDI1MDgwNi4wIKXMDSoASAFQAw%3D%3D" 
+                   target="_blank"
+                   class="inline-flex items-center gap-2 text-gray-600 font-semibold hover:text-logo-blue transition-colors">
+                    <span>Ver mais avaliações no Google</span>
+                    <i class="fab fa-google"></i>
+                </a>
+            </div>
+        </section>
+
+        <footer class="text-center text-gray-400 mt-20 fade-in-element delay-800">
             <p>&copy; 2024 Autoescola Aline. Todos os direitos reservados.</p>
         </footer>
 
