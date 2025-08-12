@@ -114,55 +114,114 @@
         .delay-600 { animation-delay: 0.6s; }
         .delay-800 { animation-delay: 0.8s; }
         .delay-1000 { animation-delay: 1.0s; }
+        .delay-1200 { animation-delay: 1.2s; }
     </style>
 
-    <!-- Schema.org - Dados Estruturados para SEO Local -->
+    <!-- Schema.org - Dados Estruturados para SEO Local e Vídeos -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "AutoSchool",
-      "name": "Autoescola Aline",
-      "image": "logo.png",
-      "@id": "https://autoescolaaline.com.br",
-      "url": "https://autoescolaaline.com.br",
-      "telephone": "+5516999637970",
-      "description": "A melhor autoescola em Jaboticabal para você tirar sua CNH com instrutores qualificados e atendimento de excelência.",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "R. Floriano Peixoto, 552",
-        "addressLocality": "Jaboticabal",
-        "addressRegion": "SP",
-        "postalCode": "14870-370",
-        "addressCountry": "BR"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": -21.259509,
-        "longitude": -48.3190932
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "5",
-        "reviewCount": "3"
-      },
-       "review": [
+      "@graph": [
         {
-          "@type": "Review",
-          "author": {"@type": "Person", "name": "Krissie V."},
-          "reviewRating": {"@type": "Rating", "ratingValue": "5"},
-          "reviewBody": "Ótimo atendimento, professores muito bons e simpáticos. E um ótimo preço 😁 Sem dúvidas a melhor da cidade 😊😊"
+          "@type": "AutoSchool",
+          "name": "Autoescola Aline",
+          "image": "logo.png",
+          "@id": "https://autoescolaaline.com.br",
+          "url": "https://autoescolaaline.com.br",
+          "telephone": "+5516999637970",
+          "description": "A melhor autoescola em Jaboticabal para você tirar sua CNH com instrutores qualificados e atendimento de excelência.",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "R. Floriano Peixoto, 552",
+            "addressLocality": "Jaboticabal",
+            "addressRegion": "SP",
+            "postalCode": "14870-370",
+            "addressCountry": "BR"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": -21.259509,
+            "longitude": -48.3190932
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "5",
+            "reviewCount": "3"
+          },
+          "review": [
+            {
+              "@type": "Review",
+              "author": {"@type": "Person", "name": "Krissie V."},
+              "reviewRating": {"@type": "Rating", "ratingValue": "5"},
+              "reviewBody": "Ótimo atendimento, professores muito bons e simpáticos. E um ótimo preço 😁 Sem dúvidas a melhor da cidade 😊😊"
+            },
+            {
+              "@type": "Review",
+              "author": {"@type": "Person", "name": "Daniel L."},
+              "reviewRating": {"@type": "Rating", "ratingValue": "5"},
+              "reviewBody": "Equipe muito prestativa e eficiente, tirei minha habilitação muito rápido. Recomendo a todos na fase de se habilitarem."
+            },
+            {
+              "@type": "Review",
+              "author": {"@type": "Person", "name": "Giovanna Q."},
+              "reviewRating": {"@type": "Rating", "ratingValue": "5"},
+              "reviewBody": "Recepcionista super atenciosa, instrutores muito bem capacitados e simpáticos, ambiente super tranquilo."
+            }
+          ]
         },
         {
-          "@type": "Review",
-          "author": {"@type": "Person", "name": "Daniel L."},
-          "reviewRating": {"@type": "Rating", "ratingValue": "5"},
-          "reviewBody": "Equipe muito prestativa e eficiente, tirei minha habilitação muito rápido. Recomendo a todos na fase de se habilitarem."
+          "@type": "VideoObject",
+          "name": "A Baliza Perfeita",
+          "description": "Todas as etapas para fazer uma baliza perfeita no exame prático do Detran-SP com o ônix",
+          "thumbnailUrl": "https://i.ytimg.com/vi/YbuC3TfY_fw/maxresdefault.jpg",
+          "uploadDate": "2024-06-11T08:00:00-03:00",
+          "duration": "PT0M58S",
+          "contentUrl": "https://www.youtube.com/shorts/YbuC3TfY_fw",
+          "embedUrl": "https://www.youtube.com/embed/YbuC3TfY_fw",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Autoescola Aline",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "logo.png"
+            }
+          }
         },
         {
-          "@type": "Review",
-          "author": {"@type": "Person", "name": "Giovanna Q."},
-          "reviewRating": {"@type": "Rating", "ratingValue": "5"},
-          "reviewBody": "Recepcionista super atenciosa, instrutores muito bem capacitados e simpáticos, ambiente super tranquilo."
+          "@type": "VideoObject",
+          "name": "Como não perder o equilíbrio na moto",
+          "description": "Dicas para você ter mais equilíbrio na moto, principalmente durante o exame prático do Detran SP",
+          "thumbnailUrl": "https://i.ytimg.com/vi/RgDMpFLZ43s/maxresdefault.jpg",
+          "uploadDate": "2024-07-15T08:00:00-03:00",
+          "duration": "PT0M59S",
+          "contentUrl": "https://www.youtube.com/shorts/RgDMpFLZ43s",
+          "embedUrl": "https://www.youtube.com/embed/RgDMpFLZ43s",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Autoescola Aline",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "logo.png"
+            }
+          }
+        },
+        {
+          "@type": "VideoObject",
+          "name": "Exame Prático de Moto Completo",
+          "description": "Paso-a-Passo de todas as etapas do exame prático de moto do Detran SP em Jaboticabal",
+          "thumbnailUrl": "https://i.ytimg.com/vi/8vkK9xchaWA/maxresdefault.jpg",
+          "uploadDate": "2024-08-12T08:00:00-03:00",
+          "duration": "PT2M20S", 
+          "contentUrl": "https://www.youtube.com/shorts/8vkK9xchaWA",
+          "embedUrl": "https://www.youtube.com/embed/8vkK9xchaWA",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Autoescola Aline",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "logo.png"
+            }
+          }
         }
       ]
     }
@@ -252,7 +311,66 @@
             </div>
         </section>
 
-        <footer class="text-center text-gray-400 mt-20 fade-in-element delay-800">
+        <!-- Seção de Vídeos -->
+        <section class="w-full max-w-5xl mt-20 text-center fade-in-element delay-800">
+            <h3 class="text-3xl font-bold text-gray-800 mb-10">Dicas da Nossa Pista</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- INÍCIO DO BLOCO DE VÍDEO 1 -->
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-200 flex flex-col">
+                    <!-- Container do vídeo com proporção vertical (9:16) -->
+                    <div class="w-full max-w-xs mx-auto">
+                        <div class="aspect-[9/16] mb-4">
+                            <iframe src="https://www.youtube.com/embed/YbuC3TfY_fw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="rounded-lg w-full h-full"></iframe>
+                        </div>
+                    </div>
+                    <div class="flex-grow">
+                        <!-- Título do Vídeo -->
+                        <h4 class="font-bold text-xl mb-2 text-left">A Baliza Perfeita</h4>
+                        <!-- Descrição do Vídeo -->
+                        <p class="text-gray-600 text-left">Todas as etapas para fazer uma baliza perfeita no exame prático do Detran-SP com o ônix.</p>
+                    </div>
+                </div>
+                <!-- FIM DO BLOCO DE VÍDEO 1 -->
+
+                <!-- INÍCIO DO BLOCO DE VÍDEO 2 -->
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-200 flex flex-col">
+                    <!-- Container do vídeo com proporção vertical (9:16) -->
+                    <div class="w-full max-w-xs mx-auto">
+                        <div class="aspect-[9/16] mb-4">
+                            <iframe src="https://www.youtube.com/embed/RgDMpFLZ43s" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="rounded-lg w-full h-full"></iframe>
+                        </div>
+                    </div>
+                    <div class="flex-grow">
+                        <!-- Título do Vídeo -->
+                        <h4 class="font-bold text-xl mb-2 text-left">Como não perder o equilíbrio na moto</h4>
+                        <!-- Descrição do Vídeo -->
+                        <p class="text-gray-600 text-left">Dicas para você ter mais equilíbrio na moto, principalmente durante o exame prático do Detran SP.</p>
+                    </div>
+                </div>
+                <!-- FIM DO BLOCO DE VÍDEO 2 -->
+
+                <!-- INÍCIO DO BLOCO DE VÍDEO 3 -->
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-200 flex flex-col">
+                    <!-- Container do vídeo com proporção vertical (9:16) -->
+                    <div class="w-full max-w-xs mx-auto">
+                        <div class="aspect-[9/16] mb-4">
+                            <iframe src="https://www.youtube.com/embed/8vkK9xchaWA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="rounded-lg w-full h-full"></iframe>
+                        </div>
+                    </div>
+                    <div class="flex-grow">
+                        <!-- Título do Vídeo -->
+                        <h4 class="font-bold text-xl mb-2 text-left">Exame Prático de Moto Completo</h4>
+                        <!-- Descrição do Vídeo -->
+                        <p class="text-gray-600 text-left">Paso-a-Passo de todas as etapas do exame prático de moto do Detran SP em Jaboticabal.</p>
+                    </div>
+                </div>
+                <!-- FIM DO BLOCO DE VÍDEO 3 -->
+
+            </div>
+        </section>
+
+        <footer class="text-center text-gray-400 mt-20 fade-in-element delay-1000">
             <p>&copy; 2024 Autoescola Aline. Todos os direitos reservados.</p>
         </footer>
 
