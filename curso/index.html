@@ -262,6 +262,7 @@
         <div class="mt-8">
             <a href="https://pay.kiwify.com.br/6gkc26i" 
                target="_blank"
+               onclick="trackConversion()"
                class="inline-flex items-center gap-3 bg-theme-green text-white font-bold text-lg md:text-xl py-4 px-8 rounded-full shadow-lg shadow-theme-green transform hover:scale-105 transition-transform duration-300 ease-in-out animate-pulse-slow">
                 <i class="fas fa-lock"></i>
                 <span>QUERO PASSAR DE PRIMEIRA</span>
@@ -330,6 +331,17 @@
                 icon.classList.toggle('rotate-180');
             });
         });
+
+        // Evento de Conversão do Google Ads
+        function trackConversion() {
+          if (typeof gtag === 'function') {
+            gtag('event', 'conversion', {
+                'send_to': 'AW-965000044/kaoBCMqa860bEOz2kswD',
+                'transaction_id': ''
+            });
+          }
+          return true; // Garante que a navegação para o link continue
+        }
     </script>
 </body>
 </html>
