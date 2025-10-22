@@ -20,22 +20,33 @@
         .text-logo-blue {
             color: #1E6A9C;
         }
-        /* Vertical line for the timeline */
-        .timeline-line {
+
+        /* Linha do tempo Estilo Estrada */
+        .timeline-road {
             position: absolute;
             left: 50%;
-            top: 2rem;
-            bottom: 2rem;
-            width: 4px;
-            background-color: #e5e7eb; /* gray-200 */
+            top: 0;
+            bottom: 0;
+            width: 8px; /* Largura da estrada */
+            background-color: #6B7280; /* Cor do asfalto */
             transform: translateX(-50%);
+            z-index: 1; /* Fica atrás dos itens */
         }
-        /* Mobile timeline line */
-        @media (max-width: 767px) {
-            .timeline-line {
-                left: 1.25rem; /* Corresponds to w-10 / 2 */
-                transform: translateX(-50%);
-            }
+
+        .timeline-road::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            transform: translateX(-50%);
+            background-image: repeating-linear-gradient(
+                #FBBF24, /* Cor da faixa */
+                #FBBF24 15px, /* Comprimento do traço */
+                transparent 15px,
+                transparent 30px /* Espaço entre os traços */
+            );
         }
     </style>
 </head>
@@ -82,7 +93,7 @@
         </header>
 
         <main id="timeline-container" class="relative pt-4">
-            <div class="timeline-line hidden md:block"></div>
+            <div class="timeline-road"></div>
         </main>
 
         <footer class="text-center mt-12">
@@ -140,15 +151,15 @@
             let debounceTimer;
 
             const initialStages = [
-                { id: 'requerimento', title: 'Formalização do Requerimento', status: 'pendente', date: '', notes: 'Início do processo no DETRAN ou canais digitais.', icon: 'M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9', cost: '' },
+                { id: 'requerimento', title: 'Formalização do Requerimento', status: 'pendente', date: '', notes: 'Início do processo no DETRAN ou canais digitais.', icon: 'M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z', cost: '' },
                 { id: 'cursoTeorico', title: 'Curso Teórico', status: 'pendente', date: '', notes: 'Aulas sobre legislação, direção defensiva, etc.', icon: 'M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25', cost: '' },
                 { id: 'biometria', title: 'Coleta Biométrica', status: 'pendente', date: '', notes: 'Coleta de foto, assinatura e digitais.', icon: 'M7.864 4.243A7.5 7.5 0 0119.5 10.5c0 2.92-.556 5.709-1.588 8.261a7.5 7.5 0 01-14.124 0c-1.032-2.552-1.588-5.34-1.588-8.261a7.5 7.5 0 013.75-6.486', cost: '' },
-                { id: 'examesMedicos', title: 'Exames de Aptidão Física e Mental', status: 'pendente', date: '', notes: 'Avaliação médica e psicológica.', icon: 'M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.852l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z', cost: '' },
+                { id: 'examesMedicos', title: 'Exames de Aptidão Física e Mental', status: 'pendente', date: '', notes: 'Avaliação médica e psicológica.', icon: 'M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75', cost: '' },
                 { id: 'exameTeorico', title: 'Exame Teórico', status: 'pendente', date: '', notes: 'Prova oficial do DETRAN.', icon: 'M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z', cost: '' },
                 { id: 'divulgacaoPasseDePrimeira', title: 'Dica de Ouro: Passe de Primeira!', notes: 'Aprovado na teoria? Turbine sua preparação para o exame prático! Nosso treinamento exclusivo "Passe de Primeira" tem tudo o que você precisa para conquistar sua CNH sem medo.', url: 'https://autoescolaaline.com.br/curso/', buttonText: 'Conhecer o Treinamento', icon: 'M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.311a12.061 12.061 0 01-4.5 0m3.75 2.311a12.061 12.061 0 01-4.5 0m5.625-10.44a6 6 0 11-11.25 0 6 6 0 0111.25 0z'},
-                { id: 'aulasPraticas', title: 'Aulas Práticas de Direção', status: 'pendente', date: '', notes: 'Etapa opcional, mas recomendada. Defina a carga horária com seu instrutor.', icon: 'M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 004.472-.648a.75.75 0 01.819.162l3.908 3.908a.75.75 0 01-1.06 1.06l-3.908-3.908a8.973 8.973 0 01-4.286.974c-.487.023-.98.033-1.472.033a9.006 9.006 0 01-5.688-1.928A9 9 0 016 9a8.968 8.968 0 01.622-3.422A8.973 8.973 0 0112 3c1.242 0 2.417.316 3.472.867l-4.286 4.286a.75.75 0 01-1.06-1.06l3.908-3.908z', cost: '' },
+                { id: 'aulasPraticas', title: 'Aulas Práticas de Direção', status: 'pendente', date: '', notes: 'Etapa opcional, mas recomendada. Defina a carga horária com seu instrutor.', icon: 'M9 15.75l3-3m0 0l3 3m-3-3v11.25m-10.125-11.25h14.25c.621 0 1.125.504 1.125 1.125v12c0 .621-.504 1.125-1.125 1.125H5.625c-.621 0-1.125-.504-1.125-1.125v-12c0-.621.504-1.125 1.125-1.125z', cost: '' },
                 { id: 'examePratico', title: 'Exame de Direção Veicular', status: 'pendente', date: '', notes: 'Prova prática de baliza e percurso.', icon: 'M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9.75m18 0v-6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 1.5v6m12 15a3 3 0 11-6 0 3 3 0 016 0z', cost: '' },
-                { id: 'permissao', title: 'Emissão da Permissão para Dirigir (PPD)', status: 'pendente', date: '', notes: 'Parabéns! Válida por 1 ano.', icon: 'M16.5 18a4.5 4.5 0 00-1.897 8.242l-2.276-2.275a2.25 2.25 0 01-.26-3.238l1.03-1.03a2.25 2.25 0 013.238.26l2.275 2.276A4.5 4.5 0 0016.5 18z', cost: '' },
+                { id: 'permissao', title: 'Emissão da Permissão para Dirigir (PPD)', status: 'pendente', date: '', notes: 'Parabéns! Válida por 1 ano.', icon: 'M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z', cost: '' },
                 { id: 'cnhDefinitiva', title: 'CNH Definitiva', status: 'pendente', date: '', notes: 'Conquista final após 1 ano sem infrações graves/gravíssimas.', icon: 'M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z', cost: '' }
             ];
 
@@ -255,27 +266,37 @@
             };
 
             const renderTimeline = () => {
-                timelineContainer.innerHTML = '<div class="timeline-line hidden md:block"></div>';
+                timelineContainer.innerHTML = '<div class="timeline-road"></div>';
                 stagesData.forEach((stage, index) => {
-                    const isEven = index % 2 === 0;
                     const timelineItem = document.createElement('div');
-                    timelineItem.className = `timeline-item mb-8 flex w-full items-center md:justify-center`;
+                    timelineItem.className = 'timeline-item mb-8 w-full flex flex-col items-center';
+
+                    const iconHTML = `<div class="z-20 flex-shrink-0 flex items-center shadow-lg w-10 h-10 rounded-full"><svg class="w-6 h-6 text-white mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${stage.icon}"></path></svg></div>`;
+                    let cardHTML;
                     
                     if (stage.id === 'divulgacaoPasseDePrimeira') {
-                        const adCardHTML = `<div class="bg-amber-50 rounded-lg shadow-xl p-4 md:p-6 border-2 border-amber-400"><h3 class="font-bold text-amber-800 text-xl mb-2">${stage.title}</h3><p class="text-gray-700 mb-4">${stage.notes}</p><a href="${stage.url}" target="_blank" class="block text-center w-full bg-emerald-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-emerald-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">${stage.buttonText}</a></div>`;
-                        timelineItem.innerHTML = `<div class="flex items-center w-full md:hidden"><div class="z-10 flex-shrink-0 flex items-center bg-amber-500 shadow-lg w-10 h-10 rounded-full"><svg class="w-6 h-6 text-white mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${stage.icon}"></path></svg></div><div class="flex-1 ml-4">${adCardHTML}</div></div><div class="hidden md:flex w-full items-center justify-center"><div class="w-5/12 ${isEven ? '' : 'order-3'}">${isEven ? adCardHTML : ''}</div><div class="z-10 flex-shrink-0 flex items-center bg-amber-500 shadow-lg w-10 h-10 rounded-full mx-4 order-2"><svg class="w-6 h-6 text-white mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${stage.icon}"></path></svg></div><div class="w-5/12 ${isEven ? 'order-3' : ''}">${!isEven ? adCardHTML : ''}</div></div>`;
-                        timelineContainer.appendChild(timelineItem);
-                        return;
-                    }
+                        cardHTML = `<div class="bg-amber-50 rounded-lg shadow-xl p-4 md:p-6 border-2 border-amber-400"><h3 class="font-bold text-amber-800 text-xl mb-2">${stage.title}</h3><p class="text-gray-700 mb-4">${stage.notes}</p><a href="${stage.url}" target="_blank" class="block text-center w-full bg-emerald-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-emerald-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">${stage.buttonText}</a></div>`;
+                        timelineItem.innerHTML = `<div class="relative w-full flex flex-col items-center"><div class="z-20 flex-shrink-0 flex items-center bg-amber-500 shadow-lg w-10 h-10 rounded-full">${iconHTML}</div><div class="w-full max-w-sm -mt-5 pt-8 relative z-10">${cardHTML}</div></div>`;
+                    } else {
+                        const statusConfig = {pendente:{cardBg:'bg-gray-50',border:'border-gray-200',iconBg:'bg-gray-400'},andamento:{cardBg:'bg-blue-50',border:'border-blue-200',iconBg:'bg-logo-blue'},concluido:{cardBg:'bg-emerald-50',border:'border-emerald-200',iconBg:'bg-emerald-500'},aprovado:{cardBg:'bg-emerald-50',border:'border-emerald-200',iconBg:'bg-emerald-500'},reprovado:{cardBg:'bg-red-50',border:'border-red-200',iconBg:'bg-red-500'},emitido:{cardBg:'bg-emerald-50',border:'border-emerald-200',iconBg:'bg-emerald-500'}};
+                        const currentStatus = statusConfig[stage.status] || statusConfig.pendente;
+                        let currentStatusOptions = statusOptions.default;
+                        if(stage.id.includes('exame')) currentStatusOptions = statusOptions.exame; else if(stage.id ==='permissao'||stage.id==='cnhDefinitiva') currentStatusOptions = statusOptions.final;
+                        const optionsHtml = currentStatusOptions.map(opt => `<option value="${opt.value}" ${stage.status === opt.value ? 'selected' : ''}>${opt.text}</option>`).join('');
+                        
+                        cardHTML = `<div class="${currentStatus.cardBg} rounded-lg shadow-md p-4 md:p-6 border ${currentStatus.border}"><h3 class="font-bold text-gray-800 text-lg mb-3">${stage.title}</h3><div class="space-y-4"><div class="grid grid-cols-2 gap-4"><div><label for="date-${stage.id}" class="block text-sm font-semibold text-gray-600 mb-1">Data</label><input type="date" id="date-${stage.id}" data-stage-id="${stage.id}" data-prop="date" value="${stage.date}" class="autosave w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-logo-blue focus:border-logo-blue"></div><div><label for="cost-${stage.id}" class="block text-sm font-semibold text-gray-600 mb-1">Valor Gasto</label><input type="number" id="cost-${stage.id}" data-stage-id="${stage.id}" data-prop="cost" value="${stage.cost}" placeholder="R$ 0,00" class="autosave w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-logo-blue focus:border-logo-blue"></div></div><div><label for="status-${stage.id}" class="block text-sm font-semibold text-gray-600 mb-1">Status</label><select id="status-${stage.id}" data-stage-id="${stage.id}" data-prop="status" class="autosave w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-logo-blue focus:border-logo-blue">${optionsHtml}</select></div><div><label for="notes-${stage.id}" class="block text-sm font-semibold text-gray-600 mb-1">Anotações</label><textarea id="notes-${stage.id}" data-stage-id="${stage.id}" data-prop="notes" rows="2" class="autosave w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-logo-blue focus:border-logo-blue" placeholder="Ex: Aprovado com 28/30 pontos...">${stage.notes}</textarea></div></div></div>`;
 
-                    const statusConfig = {pendente:{cardBg:'bg-gray-50',border:'border-gray-200',iconBg:'bg-gray-400'},andamento:{cardBg:'bg-blue-50',border:'border-blue-200',iconBg:'bg-logo-blue'},concluido:{cardBg:'bg-emerald-50',border:'border-emerald-200',iconBg:'bg-emerald-500'},aprovado:{cardBg:'bg-emerald-50',border:'border-emerald-200',iconBg:'bg-emerald-500'},reprovado:{cardBg:'bg-red-50',border:'border-red-200',iconBg:'bg-red-500'},emitido:{cardBg:'bg-emerald-50',border:'border-emerald-200',iconBg:'bg-emerald-500'}};
-                    const currentStatus = statusConfig[stage.status] || statusConfig.pendente;
-                    let currentStatusOptions = statusOptions.default;
-                    if(stage.id.includes('exame')) currentStatusOptions = statusOptions.exame; else if(stage.id ==='permissao'||stage.id==='cnhDefinitiva') currentStatusOptions = statusOptions.final;
-                    const optionsHtml = currentStatusOptions.map(opt => `<option value="${opt.value}" ${stage.status === opt.value ? 'selected' : ''}>${opt.text}</option>`).join('');
-                    const cardContentHTML = `<h3 class="font-bold text-gray-800 text-lg mb-3">${stage.title}</h3><div class="space-y-4"><div class="grid grid-cols-2 gap-4"><div><label for="date-${stage.id}" class="block text-sm font-semibold text-gray-600 mb-1">Data</label><input type="date" id="date-${stage.id}" data-stage-id="${stage.id}" data-prop="date" value="${stage.date}" class="autosave w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-logo-blue focus:border-logo-blue"></div><div><label for="cost-${stage.id}" class="block text-sm font-semibold text-gray-600 mb-1">Valor Gasto</label><input type="number" id="cost-${stage.id}" data-stage-id="${stage.id}" data-prop="cost" value="${stage.cost}" placeholder="R$ 0,00" class="autosave w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-logo-blue focus:border-logo-blue"></div></div><div><label for="status-${stage.id}" class="block text-sm font-semibold text-gray-600 mb-1">Status</label><select id="status-${stage.id}" data-stage-id="${stage.id}" data-prop="status" class="autosave w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-logo-blue focus:border-logo-blue">${optionsHtml}</select></div><div><label for="notes-${stage.id}" class="block text-sm font-semibold text-gray-600 mb-1">Anotações</label><textarea id="notes-${stage.id}" data-stage-id="${stage.id}" data-prop="notes" rows="2" class="autosave w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-logo-blue focus:border-logo-blue" placeholder="Ex: Aprovado com 28/30 pontos...">${stage.notes}</textarea></div></div>`;
-                    const cardWrapperHTML = `<div class="${currentStatus.cardBg} rounded-lg shadow-md p-4 md:p-6 border ${currentStatus.border}">${cardContentHTML}</div>`;
-                    timelineItem.innerHTML = `<div class="flex items-center w-full md:hidden"><div class="z-10 flex-shrink-0 flex items-center ${currentStatus.iconBg} shadow-lg w-10 h-10 rounded-full"><svg class="w-6 h-6 text-white mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${stage.icon}"></path></svg></div><div class="flex-1 ml-4">${cardWrapperHTML}</div></div><div class="hidden md:flex w-full items-center justify-center"><div class="w-5/12 ${isEven ? '' : 'order-3'}">${isEven ? cardWrapperHTML : ''}</div><div class="z-10 flex-shrink-0 flex items-center ${currentStatus.iconBg} shadow-lg w-10 h-10 rounded-full mx-4 order-2"><svg class="w-6 h-6 text-white mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${stage.icon}"></path></svg></div><div class="w-5/12 ${isEven ? 'order-3' : ''}">${!isEven ? cardWrapperHTML : ''}</div></div>`;
+                        const iconContainerHTML = `<div class="z-20 flex-shrink-0 flex items-center ${currentStatus.iconBg} shadow-lg w-10 h-10 rounded-full">${iconHTML}</div>`;
+                        
+                        timelineItem.innerHTML = `
+                            <div class="relative w-full flex flex-col items-center">
+                                ${iconContainerHTML}
+                                <div class="w-full max-w-sm -mt-5 pt-8 relative z-10">
+                                    ${cardHTML}
+                                </div>
+                            </div>
+                        `;
+                    }
                     timelineContainer.appendChild(timelineItem);
                 });
 
@@ -319,4 +340,3 @@
 
 </body>
 </html>
-
