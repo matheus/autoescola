@@ -48,17 +48,6 @@
                 transparent 30px /* Espaço entre os traços */
             );
         }
-        /* Estilo para lista de tentativas */
-        .attempt-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 4px 0;
-            border-bottom: 1px solid #e5e7eb; /* gray-200 */
-        }
-        .attempt-item:last-child {
-            border-bottom: none;
-        }
     </style>
 </head>
 <body class="bg-white text-gray-800">
@@ -161,16 +150,15 @@
             let stagesData = [];
             let debounceTimer;
 
-            // Updated initialStages to handle attempts for exams
             const initialStages = [
                 { id: 'requerimento', title: 'Formalização do Requerimento', status: 'pendente', date: '', notes: 'Início do processo no DETRAN ou canais digitais.', icon: 'M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z', cost: '' },
                 { id: 'cursoTeorico', title: 'Curso Teórico', status: 'pendente', date: '', notes: 'Aulas sobre legislação, direção defensiva, etc.', icon: 'M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25', cost: '' },
                 { id: 'biometria', title: 'Coleta Biométrica', status: 'pendente', date: '', notes: 'Coleta de foto, assinatura e digitais.', icon: 'M7.864 4.243A7.5 7.5 0 0119.5 10.5c0 2.92-.556 5.709-1.588 8.261a7.5 7.5 0 01-14.124 0c-1.032-2.552-1.588-5.34-1.588-8.261a7.5 7.5 0 013.75-6.486', cost: '' },
                 { id: 'examesMedicos', title: 'Exames de Aptidão Física e Mental', status: 'pendente', date: '', notes: 'Avaliação médica e psicológica.', icon: 'M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75', cost: '' },
-                { id: 'exameTeorico', title: 'Exame Teórico', status: 'pendente', attempts: [], notes: 'Prova oficial do DETRAN.', icon: 'M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z' }, // Changed to attempts array
+                { id: 'exameTeorico', title: 'Exame Teórico', status: 'pendente', date: '', notes: 'Prova oficial do DETRAN.', icon: 'M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z', cost: '' },
                 { id: 'divulgacaoPasseDePrimeira', title: 'Dica de Ouro: Passe de Primeira!', notes: 'Aprovado na teoria? Turbine sua preparação para o exame prático! Nosso treinamento exclusivo "Passe de Primeira" tem tudo o que você precisa para conquistar sua CNH sem medo.', url: 'https://autoescolaaline.com.br/curso/', buttonText: 'Conhecer o Treinamento', icon: 'M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.311a12.061 12.061 0 01-4.5 0m3.75 2.311a12.061 12.061 0 01-4.5 0m5.625-10.44a6 6 0 11-11.25 0 6 6 0 0111.25 0z'},
                 { id: 'aulasPraticas', title: 'Aulas Práticas de Direção', status: 'pendente', date: '', notes: 'Etapa opcional, mas recomendada. Defina a carga horária com seu instrutor.', icon: 'M9 15.75l3-3m0 0l3 3m-3-3v11.25m-10.125-11.25h14.25c.621 0 1.125.504 1.125 1.125v12c0 .621-.504 1.125-1.125 1.125H5.625c-.621 0-1.125-.504-1.125-1.125v-12c0-.621.504-1.125 1.125-1.125z', cost: '' },
-                { id: 'examePratico', title: 'Exame de Direção Veicular', status: 'pendente', attempts: [], notes: 'Prova prática de baliza e percurso.', icon: 'M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9.75m18 0v-6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 1.5v6m12 15a3 3 0 11-6 0 3 3 0 016 0z' }, // Changed to attempts array
+                { id: 'examePratico', title: 'Exame de Direção Veicular', status: 'pendente', date: '', notes: 'Prova prática de baliza e percurso.', icon: 'M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9.75m18 0v-6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 1.5v6m12 15a3 3 0 11-6 0 3 3 0 016 0z', cost: '' },
                 { id: 'permissao', title: 'Emissão da Permissão para Dirigir (PPD)', status: 'pendente', date: '', notes: 'Parabéns! Válida por 1 ano.', icon: 'M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z', cost: '' },
                 { id: 'cnhDefinitiva', title: 'CNH Definitiva', status: 'pendente', date: '', notes: 'Conquista final após 1 ano sem infrações graves/gravíssimas.', icon: 'M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z', cost: '' }
             ];
@@ -215,36 +203,10 @@
                 if (currentUser) {
                     const docRef = db.collection('userProgress').doc(currentUser.uid);
                     const doc = await docRef.get();
-                    if (doc.exists) {
-                       stagesData = doc.data().stages;
-                       // Ensure attempts is always an array for exam stages
-                       stagesData.forEach(stage => {
-                           if ((stage.id === 'exameTeorico' || stage.id === 'examePratico') && !Array.isArray(stage.attempts)) {
-                               stage.attempts = [];
-                           }
-                           if(stage.id !== 'exameTeorico' && stage.id !== 'examePratico' && stage.attempts) {
-                               delete stage.attempts; // Clean up old data if structure changed
-                           }
-                       });
-                    } else {
-                        stagesData = JSON.parse(JSON.stringify(initialStages));
-                    }
+                    stagesData = (doc.exists) ? doc.data().stages : JSON.parse(JSON.stringify(initialStages));
                 } else {
                     const localData = localStorage.getItem('cnhProgress');
-                    if (localData) {
-                        stagesData = JSON.parse(localData);
-                        // Ensure attempts is always an array for exam stages locally too
-                        stagesData.forEach(stage => {
-                           if ((stage.id === 'exameTeorico' || stage.id === 'examePratico') && !Array.isArray(stage.attempts)) {
-                               stage.attempts = [];
-                           }
-                            if(stage.id !== 'exameTeorico' && stage.id !== 'examePratico' && stage.attempts) {
-                               delete stage.attempts; // Clean up old local data
-                           }
-                        });
-                    } else {
-                       stagesData = JSON.parse(JSON.stringify(initialStages));
-                    }
+                    stagesData = localData ? JSON.parse(localData) : JSON.parse(JSON.stringify(initialStages));
                 }
                 renderTimeline();
             };
@@ -252,23 +214,9 @@
             const migrateLocalDataToFirestore = async () => {
                 const localDataRaw = localStorage.getItem('cnhProgress');
                 if (localDataRaw && currentUser) {
-                    try {
-                        let localData = JSON.parse(localDataRaw);
-                         // Ensure attempts is always an array before migrating
-                        localData.forEach(stage => {
-                           if ((stage.id === 'exameTeorico' || stage.id === 'examePratico') && !Array.isArray(stage.attempts)) {
-                               stage.attempts = [];
-                           }
-                            if(stage.id !== 'exameTeorico' && stage.id !== 'examePratico' && stage.attempts) {
-                               delete stage.attempts;
-                           }
-                        });
-                        await db.collection('userProgress').doc(currentUser.uid).set({ stages: localData });
-                        localStorage.removeItem('cnhProgress');
-                        showToast('Dados locais migrados para a nuvem!');
-                    } catch (error) {
-                        console.error("Erro ao migrar dados locais:", error);
-                    }
+                    const localData = JSON.parse(localDataRaw);
+                    await db.collection('userProgress').doc(currentUser.uid).set({ stages: localData });
+                    localStorage.removeItem('cnhProgress');
                 }
             };
 
@@ -294,13 +242,11 @@
             const statusOptions = { default: [{ value: 'pendente', text: 'Pendente' }, { value: 'andamento', text: 'Em Andamento' },{ value: 'concluido', text: 'Concluído' }], exame: [{ value: 'pendente', text: 'Pendente' }, { value: 'aprovado', text: 'Aprovado' }, { value: 'reprovado', text: 'Reprovado' }], final: [{ value: 'pendente', text: 'Pendente' }, { value: 'emitido', text: 'Emitido' }] };
             const showToast = (message) => { toast.innerHTML = `<p>${message}</p>`; toast.classList.remove('translate-x-full'); toast.classList.add('translate-x-0'); setTimeout(() => { toast.classList.remove('translate-x-0'); toast.classList.add('translate-x-full'); }, 3000); };
             const updateCounters = () => {
-                const dates = stagesData
-                    .flatMap(stage => (stage.attempts ? stage.attempts.map(a => a.date) : [stage.date]))
-                    .filter(date => date);
+                const dates = stagesData.map(stage => stage.date).filter(date => date);
                 if (dates.length === 0) {
                     durationCounter.innerHTML = '<span>Insira uma data para começar a contagem!</span>';
                 } else {
-                     const firstDate = new Date(Math.min.apply(null, dates.map(dateStr => new Date(`${dateStr}T12:00:00Z`))));
+                    const firstDate = new Date(Math.min.apply(null, dates.map(dateStr => new Date(`${dateStr}T12:00:00Z`))));
                     const today = new Date(); today.setUTCHours(12,0,0,0);
                     if (firstDate > today) { durationCounter.innerHTML = '<span>Aguardando início...</span>'; }
                     else {
@@ -315,16 +261,7 @@
                         durationCounter.innerHTML = `<span>Tempo de processo: <strong>${durationText}</strong></span>`;
                     }
                 }
-
-                 const totalCost = stagesData.reduce((total, stage) => {
-                    let stageCost = 0;
-                    if (stage.attempts && Array.isArray(stage.attempts)) {
-                        stageCost = stage.attempts.reduce((attemptTotal, attempt) => attemptTotal + (isNaN(parseFloat(attempt.cost)) ? 0 : parseFloat(attempt.cost)), 0);
-                    } else if (stage.cost) {
-                        stageCost = isNaN(parseFloat(stage.cost)) ? 0 : parseFloat(stage.cost);
-                    }
-                    return total + stageCost;
-                }, 0);
+                const totalCost = stagesData.reduce((total, stage) => total + (isNaN(parseFloat(stage.cost)) ? 0 : parseFloat(stage.cost)), 0);
                 totalCostCounter.innerHTML = `<span>Custo Total: <strong>${totalCost.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</strong></span>`;
             };
 
@@ -336,62 +273,20 @@
 
                     const iconHTML = `<div class="z-20 flex-shrink-0 flex items-center shadow-lg w-10 h-10 rounded-full"><svg class="w-6 h-6 text-white mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${stage.icon}"></path></svg></div>`;
                     let cardHTML;
-                    let iconContainerHTML;
                     
                     if (stage.id === 'divulgacaoPasseDePrimeira') {
                         cardHTML = `<div class="bg-amber-50 rounded-lg shadow-xl p-4 md:p-6 border-2 border-amber-400"><h3 class="font-bold text-amber-800 text-xl mb-2">${stage.title}</h3><p class="text-gray-700 mb-4">${stage.notes}</p><a href="${stage.url}" target="_blank" class="block text-center w-full bg-emerald-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-emerald-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">${stage.buttonText}</a></div>`;
-                        iconContainerHTML = `<div class="z-20 flex-shrink-0 flex items-center bg-amber-500 shadow-lg w-10 h-10 rounded-full">${iconHTML}</div>`;
-                        timelineItem.innerHTML = `<div class="relative w-full flex flex-col items-center">${iconContainerHTML}<div class="w-full max-w-sm -mt-5 pt-8 relative z-10">${cardHTML}</div></div>`;
+                        timelineItem.innerHTML = `<div class="relative w-full flex flex-col items-center"><div class="z-20 flex-shrink-0 flex items-center bg-amber-500 shadow-lg w-10 h-10 rounded-full">${iconHTML}</div><div class="w-full max-w-sm -mt-5 pt-8 relative z-10">${cardHTML}</div></div>`;
                     } else {
                         const statusConfig = {pendente:{cardBg:'bg-gray-50',border:'border-gray-200',iconBg:'bg-gray-400'},andamento:{cardBg:'bg-blue-50',border:'border-blue-200',iconBg:'bg-logo-blue'},concluido:{cardBg:'bg-emerald-50',border:'border-emerald-200',iconBg:'bg-emerald-500'},aprovado:{cardBg:'bg-emerald-50',border:'border-emerald-200',iconBg:'bg-emerald-500'},reprovado:{cardBg:'bg-red-50',border:'border-red-200',iconBg:'bg-red-500'},emitido:{cardBg:'bg-emerald-50',border:'border-emerald-200',iconBg:'bg-emerald-500'}};
                         const currentStatus = statusConfig[stage.status] || statusConfig.pendente;
                         let currentStatusOptions = statusOptions.default;
-                        
-                        let attemptsHTML = '';
-                        let dateCostInputsHTML = '';
-
-                        // Check if it's an exam stage
-                        if (stage.id === 'exameTeorico' || stage.id === 'examePratico') {
-                             currentStatusOptions = statusOptions.exame;
-                             // Ensure attempts is an array
-                             stage.attempts = Array.isArray(stage.attempts) ? stage.attempts : []; 
-
-                             attemptsHTML = `
-                                <div class="mt-4">
-                                    <h4 class="text-sm font-semibold text-gray-700 mb-2">Histórico de Tentativas:</h4>
-                                    <div id="attempts-list-${stage.id}" class="text-sm text-gray-600 space-y-1 mb-3">
-                                        ${stage.attempts.length === 0 ? '<p>Nenhuma tentativa registrada.</p>' : ''}
-                                        ${stage.attempts.map((attempt, idx) => `
-                                            <div class="attempt-item" data-stage-id="${stage.id}" data-attempt-index="${idx}">
-                                                <span>${new Date(attempt.date + 'T12:00:00Z').toLocaleDateString('pt-BR')} - ${parseFloat(attempt.cost || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
-                                                <button class="remove-attempt-btn text-red-500 hover:text-red-700 text-xs ml-2" title="Remover tentativa">✖</button>
-                                            </div>
-                                        `).join('')}
-                                    </div>
-                                    <button class="add-attempt-btn text-sm text-blue-600 hover:text-blue-800 font-semibold" data-stage-id="${stage.id}">+ Adicionar Tentativa</button>
-                                </div>
-                             `;
-                        } else {
-                            // Standard date and cost inputs for non-exam stages
-                            currentStatusOptions = (stage.id === 'permissao' || stage.id === 'cnhDefinitiva') ? statusOptions.final : statusOptions.default;
-                            dateCostInputsHTML = `
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label for="date-${stage.id}" class="block text-sm font-semibold text-gray-600 mb-1">Data</label>
-                                        <input type="date" id="date-${stage.id}" data-stage-id="${stage.id}" data-prop="date" value="${stage.date || ''}" class="autosave w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-logo-blue focus:border-logo-blue">
-                                    </div>
-                                    <div>
-                                        <label for="cost-${stage.id}" class="block text-sm font-semibold text-gray-600 mb-1">Valor Gasto</label>
-                                        <input type="number" id="cost-${stage.id}" data-stage-id="${stage.id}" data-prop="cost" value="${stage.cost || ''}" placeholder="R$ 0,00" class="autosave w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-logo-blue focus:border-logo-blue">
-                                    </div>
-                                </div>`;
-                        }
-                        
+                        if(stage.id.includes('exame')) currentStatusOptions = statusOptions.exame; else if(stage.id ==='permissao'||stage.id==='cnhDefinitiva') currentStatusOptions = statusOptions.final;
                         const optionsHtml = currentStatusOptions.map(opt => `<option value="${opt.value}" ${stage.status === opt.value ? 'selected' : ''}>${opt.text}</option>`).join('');
                         
-                        cardHTML = `<div class="${currentStatus.cardBg} rounded-lg shadow-md p-4 md:p-6 border ${currentStatus.border}"><h3 class="font-bold text-gray-800 text-lg mb-3">${stage.title}</h3><div class="space-y-4">${dateCostInputsHTML}<div><label for="status-${stage.id}" class="block text-sm font-semibold text-gray-600 mb-1">Status Geral</label><select id="status-${stage.id}" data-stage-id="${stage.id}" data-prop="status" class="autosave w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-logo-blue focus:border-logo-blue">${optionsHtml}</select></div>${attemptsHTML}<div><label for="notes-${stage.id}" class="block text-sm font-semibold text-gray-600 mb-1">Anotações</label><textarea id="notes-${stage.id}" data-stage-id="${stage.id}" data-prop="notes" rows="2" class="autosave w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-logo-blue focus:border-logo-blue" placeholder="Ex: Informações adicionais...">${stage.notes}</textarea></div></div></div>`;
+                        cardHTML = `<div class="${currentStatus.cardBg} rounded-lg shadow-md p-4 md:p-6 border ${currentStatus.border}"><h3 class="font-bold text-gray-800 text-lg mb-3">${stage.title}</h3><div class="space-y-4"><div class="grid grid-cols-2 gap-4"><div><label for="date-${stage.id}" class="block text-sm font-semibold text-gray-600 mb-1">Data</label><input type="date" id="date-${stage.id}" data-stage-id="${stage.id}" data-prop="date" value="${stage.date}" class="autosave w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-logo-blue focus:border-logo-blue"></div><div><label for="cost-${stage.id}" class="block text-sm font-semibold text-gray-600 mb-1">Valor Gasto</label><input type="number" id="cost-${stage.id}" data-stage-id="${stage.id}" data-prop="cost" value="${stage.cost}" placeholder="R$ 0,00" class="autosave w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-logo-blue focus:border-logo-blue"></div></div><div><label for="status-${stage.id}" class="block text-sm font-semibold text-gray-600 mb-1">Status</label><select id="status-${stage.id}" data-stage-id="${stage.id}" data-prop="status" class="autosave w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-logo-blue focus:border-logo-blue">${optionsHtml}</select></div><div><label for="notes-${stage.id}" class="block text-sm font-semibold text-gray-600 mb-1">Anotações</label><textarea id="notes-${stage.id}" data-stage-id="${stage.id}" data-prop="notes" rows="2" class="autosave w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-logo-blue focus:border-logo-blue" placeholder="Ex: Aprovado com 28/30 pontos...">${stage.notes}</textarea></div></div></div>`;
 
-                        iconContainerHTML = `<div class="z-20 flex-shrink-0 flex items-center ${currentStatus.iconBg} shadow-lg w-10 h-10 rounded-full">${iconHTML}</div>`;
+                        const iconContainerHTML = `<div class="z-20 flex-shrink-0 flex items-center ${currentStatus.iconBg} shadow-lg w-10 h-10 rounded-full">${iconHTML}</div>`;
                         
                         timelineItem.innerHTML = `
                             <div class="relative w-full flex flex-col items-center">
@@ -405,78 +300,24 @@
                     timelineContainer.appendChild(timelineItem);
                 });
 
-                // --- Event Listeners ---
                 document.querySelectorAll('.autosave').forEach(input => {
-                    input.addEventListener('input', handleAutoSave);
-                });
-
-                 document.querySelectorAll('.add-attempt-btn').forEach(button => {
-                    button.addEventListener('click', handleAddAttempt);
-                });
-                
-                document.querySelectorAll('.remove-attempt-btn').forEach(button => {
-                   button.addEventListener('click', handleRemoveAttempt);
+                    input.addEventListener('input', (e) => {
+                        const stageId = e.target.dataset.stageId;
+                        const prop = e.target.dataset.prop;
+                        const stageIndex = stagesData.findIndex(s => s.id === stageId);
+                        if (stageIndex !== -1) {
+                            stagesData[stageIndex][prop] = e.target.value;
+                            updateCounters();
+                            if (prop === 'status') {
+                                renderTimeline();
+                            }
+                            debouncedSave();
+                        }
+                    });
                 });
                 
                 updateCounters();
             };
-
-            function handleAutoSave(e) {
-                const stageId = e.target.dataset.stageId;
-                const prop = e.target.dataset.prop;
-                const stageIndex = stagesData.findIndex(s => s.id === stageId);
-                if (stageIndex !== -1) {
-                    // Don't autosave attempts directly here
-                    if (prop !== 'attempts') {
-                       stagesData[stageIndex][prop] = e.target.value;
-                    }
-                    updateCounters();
-                    if (prop === 'status') {
-                        // Re-render only if status changed to update colors/options
-                        renderTimeline(); 
-                    }
-                    debouncedSave();
-                }
-            }
-
-            function handleAddAttempt(e) {
-                 const stageId = e.target.dataset.stageId;
-                 const stageIndex = stagesData.findIndex(s => s.id === stageId);
-                 if (stageIndex === -1) return;
-
-                 // Simple prompt for date and cost
-                 const date = prompt("Digite a data da tentativa (AAAA-MM-DD):");
-                 const cost = prompt("Digite o custo desta tentativa (apenas números):");
-
-                 if (date && cost && !isNaN(parseFloat(cost))) {
-                     // Ensure attempts array exists
-                    if (!Array.isArray(stagesData[stageIndex].attempts)) {
-                        stagesData[stageIndex].attempts = [];
-                    }
-                     stagesData[stageIndex].attempts.push({ date: date, cost: parseFloat(cost) });
-                     debouncedSave();
-                     renderTimeline(); // Re-render to show the new attempt
-                 } else if (date || cost) {
-                     alert("Data ou custo inválido. Por favor, tente novamente.");
-                 }
-            }
-            
-             function handleRemoveAttempt(e) {
-                const button = e.target;
-                const attemptItem = button.closest('.attempt-item');
-                const stageId = attemptItem.dataset.stageId;
-                const attemptIndex = parseInt(attemptItem.dataset.attemptIndex, 10);
-                 const stageIndex = stagesData.findIndex(s => s.id === stageId);
-
-                if (stageIndex !== -1 && stagesData[stageIndex].attempts && stagesData[stageIndex].attempts[attemptIndex]) {
-                     if (confirm(`Remover tentativa de ${new Date(stagesData[stageIndex].attempts[attemptIndex].date + 'T12:00:00Z').toLocaleDateString('pt-BR')}?`)) {
-                        stagesData[stageIndex].attempts.splice(attemptIndex, 1);
-                        debouncedSave();
-                        renderTimeline();
-                    }
-                }
-            }
-
 
             shareBtn.addEventListener('click', async () => {
                 const shareData = { title: 'MINHA CNH', text: 'Estou acompanhando meu processo para tirar a CNH com o app MINHA CNH! Acompanhe o seu também.', url: window.location.href };
@@ -499,4 +340,3 @@
 
 </body>
 </html>
-
