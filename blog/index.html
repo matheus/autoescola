@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Blog Autoescola Aline | Dicas CNH Jaboticabal</title>
+    
+    <link rel="canonical" href="https://autoescolaaline.com.br/blog.html">
+    <meta name="description" content="Guias e Dicas da Autoescola Aline em Jaboticabal. Tudo sobre CNH, exames de carro, moto e categorias profissionais (Caminhão/Ônibus).">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        .text-logo-blue { color: #1E6A9C; }
+        .bg-logo-blue { background-color: #1E6A9C; }
+        .text-center-desktop { text-align: center; } 
+        .post-card { transition: transform 0.3s ease; }
+        .post-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+    </style>
+</head>
+<body class="bg-white text-gray-800 min-h-screen">
+
+    <header class="max-w-4xl mx-auto py-12 px-6 text-center border-b border-gray-100">
+        <a href="https://autoescolaaline.com.br" class="text-xs font-semibold uppercase text-gray-400 hover:text-logo-blue transition-colors tracking-widest">
+            ← VOLTAR AO SITE PRINCIPAL
+        </a>
+        <h1 class="text-5xl sm:text-6xl md:text-7xl font-black uppercase leading-tight mt-6 text-gray-800">
+            BLOG <span class="text-logo-blue">ALINE</span>
+        </h1>
+        <p class="text-xl text-gray-500 mt-4">Seu guia completo para tirar a CNH em Jaboticabal.</p>
+    </header>
+    
+    <main class="max-w-4xl mx-auto py-16 px-6">
+
+        <h2 class="text-3xl font-bold mb-10 text-center text-gray-800">Últimas Postagens</h2>
+
+        <div id="posts-container" class="space-y-10">
+            </div>
+
+        <div class="mt-16 text-center">
+            <a href="https://wa.me/5516999637970" target="_blank" class="inline-flex items-center gap-3 bg-emerald-500 text-white font-bold text-lg md:text-xl py-4 px-8 rounded-full shadow-lg shadow-emerald-500/40 transform hover:scale-105 transition-transform duration-300 ease-in-out">
+                <i class="fab fa-whatsapp text-2xl"></i>
+                <span>Orçamento Direto no WhatsApp</span>
+            </a>
+        </div>
+    </main>
+
+    <footer class="text-center text-gray-400 mt-20 py-8 border-t border-gray-100">
+        <p>© 2025 Autoescola Aline. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // Array de dados ESTÁTICOS das suas postagens - Lista completa e corrigida
+        const posts = [
+            // POST 1 (Mais Novo)
+            {
+                title: "Como Controlar o Nervosismo e Manter a Calma no Exame Prático do Detran",
+                summary: "O nervosismo é o maior vilão da CNH. Veja 5 estratégias testadas para manter a calma na hora da prova prática do Detran em Jaboticabal e garantir sua aprovação com a Autoescola Aline.",
+                date: "09/Nov/2025",
+                slug: "calma-exame-pratico.html",
+                category: "DICAS GERAIS",
+                color: "bg-blue-500"
+            },
+            // POST 2
+            {
+                title: "Como Perder o Medo de Dirigir Definitivamente em Jaboticabal",
+                summary: "A Autoescola Aline preparou 7 dicas essenciais e práticas para você vencer o medo de dirigir (Amaxofobia) e assumir o volante com confiança.",
+                date: "09/Nov/2025",
+                slug: "perder-medo-dirigir.html",
+                category: "DICAS GERAIS",
+                color: "bg-blue-500"
+            },
+            // POST 3
+            {
+                title: "Como Memorizar as Multas de Trânsito: Leve, Média, Grave e Gravíssima",
+                summary: "Chega de confusão! Aprenda o método simples e eficaz da Autoescola Aline para memorizar as categorias de infração (leve, média, grave e gravíssima) para a prova teórica do DETRAN em Jaboticabal.",
+                date: "10/Nov/2025",
+                slug: "como-memorizar-multas-detran.html",
+                category: "PROVA TEÓRICA",
+                color: "bg-red-500"
+            },
+            // POST 4 (Mais Antigo)
+            {
+                title: "Como Passar no Exame Prático de Moto: Domine o Equilíbrio e a Pista",
+                summary: "O segredo para não zerar na prova de moto em Jaboticabal está no equilíbrio e controle. Veja as 5 dicas essenciais dos instrutores da Autoescola Aline.",
+                date: "09/Nov/2025",
+                slug: "moto-equilibrio.html",
+                category: "EXAMES",
+                color: "bg-yellow-500"
+            }
+            // NOVAS POSTAGENS SERÃO ADICIONADAS AQUI, SEMPRE NO INÍCIO DO ARRAY.
+        ];
+
+        const container = document.getElementById('posts-container');
+        
+        posts.forEach(post => {
+            const postElement = document.createElement('article');
+            postElement.classList.add('post-card', 'bg-white', 'p-8', 'rounded-lg', 'shadow-md', 'border', 'border-gray-100', 'text-center');
+            
+            postElement.innerHTML = `
+                <span class="text-xs font-semibold uppercase ${post.color} text-white px-3 py-1 rounded-full self-start mb-4 inline-block tracking-widest">${post.category}</span>
+                <h2 class="text-3xl md:text-4xl font-black mb-4 text-gray-900 leading-snug">
+                    <a href="./${post.slug}" class="hover:text-logo-blue transition-colors">${post.title}</a>
+                </h2>
+                <p class="text-lg text-gray-600 mb-6">${post.summary}</p>
+                <a href="./${post.slug}" class="text-logo-blue font-bold hover:text-red-500 transition-colors inline-flex items-center">
+                    Continuar Lendo <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                </a>
+                <p class="text-xs text-gray-400 mt-4">Publicado em: ${post.date}</p>
+            `;
+            container.appendChild(postElement);
+        });
+    </script>
+</body>
+</html>
