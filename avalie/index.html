@@ -95,6 +95,7 @@
                 <p class="text-sm text-blue-800">Poxa, sentimos muito por não merecer 5 estrelas. 😔</p>
             </div>
 
+            <input type="hidden" id="name" value="">
             <label class="block text-gray-700 font-bold mb-2" for="feedback">O que podemos fazer para melhorar?</label>
             <textarea id="feedback"
                 class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#1E6A9C] h-32 mb-4"
@@ -126,6 +127,13 @@
 
         let currentRating = 0;
         const GOOGLE_MAPS_LINK = "https://g.page/r/CZhrGH--U6vTEBM/review";
+
+        // Preencher nome vindo da URL (ex: ?name=João)
+        const urlParams = new URLSearchParams(window.location.search);
+        const userName = urlParams.get('name') || '';
+        if (userName) {
+            document.getElementById('name').value = userName;
+        }
 
         stars.forEach(star => {
             // Hover effect
@@ -185,9 +193,10 @@
             sendBtn.innerText = "Enviando...";
 
             // Send to Webhook
-            const webhookUrl = 'https://n8n.matheusgodoy.pro/webhook/autoescola-avalie';
+            const webhookUrl = 'https://n8n.matheusgodoy.pro/webhook-test/autoescola-avalie';
 
             const payload = {
+                name: document.getElementById('name').value,
                 rating: currentRating,
                 feedback: feedbackText,
                 timestamp: new Date().toISOString()
