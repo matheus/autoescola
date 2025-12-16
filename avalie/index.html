@@ -126,8 +126,7 @@
         const sendBtn = document.getElementById('sendFeedback');
 
         let currentRating = 0;
-        const GOOGLE_MAPS_LINK = "https://g.page/r/CZhrGH--U6vTEBM/review";
-
+        const REDIRECT_BASE_URL = "https://n8n.matheusgodoy.pro/webhook-test/autoescola-avalie-5";
         // Preencher nome vindo da URL (ex: ?name=João)
         const urlParams = new URLSearchParams(window.location.search);
         const userName = urlParams.get('name') || '';
@@ -176,10 +175,24 @@
 
             if (rating === 5) {
                 fiveStarContent.classList.remove('hidden');
-                // Redireciona automaticamente após 2 segundos
-                setTimeout(() => {
-                    window.location.href = GOOGLE_MAPS_LINK;
-                }, 6000);
+
+                // Enviar notificação para o N8N (GET)
+                const nameVal = document.getElementById('name').value;
+                const webhookFiveStar = "https://n8n.matheusgodoy.pro/webhook/autoescola-avalie-5";
+
+                // Monta a URL com parâmetros (ex: ?name=Joao&rating=5)
+                const urlWithParams = new URL(webhookFiveStar);
+                if (nameVal) urlWithParams.searchParams.append('name', nameVal);
+                urlWithParams.searchParams.append('rating', '5');
+                urlWithParams.searchParams.append('timestamp', new Date().toISOString());
+
+                fetch(urlWithParams.toString(), {
+                    method: 'GET'
+                }).catch(err => console.error('Erro ao registrar 5 estrelas:', err));
+
+                // Opcional: Redireciona para o Google após alguns segundos se desejar
+                // setTimeout(() => { window.location.href = "https://g.page/r/CZhrGH--U6vTEBM/review"; }, 3000);
+
             } else {
                 feedbackForm.classList.remove('hidden');
             }
@@ -193,7 +206,7 @@
             sendBtn.innerText = "Enviando...";
 
             // Send to Webhook
-            const webhookUrl = 'https://n8n.matheusgodoy.pro/webhook-test/autoescola-avalie';
+            const webhookUrl = 'https://n8n.matheusgodoy.pro/webhook/autoescola-avalie';
 
             const payload = {
                 name: document.getElementById('name').value,
