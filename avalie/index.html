@@ -192,8 +192,10 @@
                     body: JSON.stringify(payload)
                 }).catch(err => console.error('Erro ao registrar 5 estrelas:', err));
 
-                // Opcional: Redireciona para o Google após alguns segundos se desejar
-                // setTimeout(() => { window.location.href = "https://g.page/r/CZhrGH--U6vTEBM/review"; }, 3000);
+                // Redireciona para o Google após 6 segundos
+                setTimeout(() => {
+                    window.location.href = "https://g.page/r/CYubf75Tqz_TEBM/review";
+                }, 6000);
 
             } else {
                 feedbackForm.classList.remove('hidden');
