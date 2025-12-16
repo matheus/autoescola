@@ -176,18 +176,20 @@
             if (rating === 5) {
                 fiveStarContent.classList.remove('hidden');
 
-                // Enviar notificação para o N8N (GET)
+                // Enviar notificação para o N8N (POST)
                 const nameVal = document.getElementById('name').value;
                 const webhookFiveStar = "https://n8n.matheusgodoy.pro/webhook/autoescola-avalie-5";
 
-                // Monta a URL com parâmetros (ex: ?name=Joao&rating=5)
-                const urlWithParams = new URL(webhookFiveStar);
-                if (nameVal) urlWithParams.searchParams.append('name', nameVal);
-                urlWithParams.searchParams.append('rating', '5');
-                urlWithParams.searchParams.append('timestamp', new Date().toISOString());
+                const payload = {
+                    name: nameVal,
+                    rating: 5,
+                    timestamp: new Date().toISOString()
+                };
 
-                fetch(urlWithParams.toString(), {
-                    method: 'GET'
+                fetch(webhookFiveStar, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
                 }).catch(err => console.error('Erro ao registrar 5 estrelas:', err));
 
                 // Opcional: Redireciona para o Google após alguns segundos se desejar
