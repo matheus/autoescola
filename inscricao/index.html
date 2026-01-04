@@ -1,12 +1,465 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <title>Autoescola Aline - Inscrição</title>
+<html lang="pt-BR">
 
-    <meta http-equiv="refresh" content="0; URL='https://docs.google.com/forms/d/e/1FAIpQLSdJw2HreEJJMBAVv7C5Leo2sqAN0F_B3phnYEkZmZT4FJ3JWg/viewform?usp=header'"/>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscrição - Autoescola Aline</title>
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon-16x16.png">
+    <link rel="manifest" href="../assets/site.webmanifest">
+    <link rel="shortcut icon" href="../assets/favicon.ico">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts (Poppins) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .text-logo-blue {
+            color: #1E6A9C;
+        }
+    </style>
 </head>
-<body>
-...
+
+<body class="bg-gray-50 text-gray-800">
+
+    <div id="passwordModal"
+        class="fixed inset-0 z-50 bg-gray-900 bg-opacity-95 flex items-center justify-center backdrop-blur-sm">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4 text-center">
+            <div class="mb-6">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-lock text-2xl text-logo-blue"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800">Acesso Restrito</h2>
+                <p class="text-gray-500 mt-2">Área exclusiva para funcionários.</p>
+            </div>
+
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <input type="password" id="accessPassword" placeholder="Digite a senha de acesso"
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                        autofocus>
+                </div>
+                <button type="submit"
+                    class="w-full bg-[#1E6A9C] hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors duration-300 shadow-lg">
+                    Entrar
+                </button>
+                <p id="loginError" class="text-red-500 text-sm font-medium hidden">
+                    <i class="fas fa-exclamation-circle mr-1"></i> Senha incorreta
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <div id="mainContent"
+        class="min-h-screen py-8 px-4 sm:px-6 lg:px-8 filter blur-lg pointer-events-none transition-all duration-500">
+        <header class="mb-10 text-center">
+            <a href="../index.html">
+                <img src="../assets/logo.png" alt="Autoescola Aline" class="mx-auto h-24 w-auto mb-4">
+            </a>
+            <h1 class="text-3xl font-bold text-gray-900">Ficha de Inscrição</h1>
+            <p class="mt-2 text-gray-600">Preencha os dados abaixo para realizar a matrícula</p>
+        </header>
+
+        <main class="max-w-4xl mx-auto bg-white shadow-xl rounded-2xl overflow-hidden p-8">
+            <form id="registrationForm" class="space-y-8">
+
+                <!-- Dados Pessoais -->
+                <section>
+                    <h2 class="text-xl font-semibold text-logo-blue mb-6 border-b pb-2"><i
+                            class="fas fa-user mr-2"></i>Dados Pessoais</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="col-span-2">
+                            <label class="block text-sm font-medium text-gray-700">Nome Completo</label>
+                            <input type="text" name="nome" required
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-3 border">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">CPF</label>
+                            <input type="text" name="cpf" required
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-3 border">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">RG</label>
+                            <input type="text" name="rg" required
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-3 border">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Data de Nascimento</label>
+                            <input type="date" name="data_nascimento" required
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-3 border">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Estado Civil</label>
+                            <select name="estado_civil"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-3 border">
+                                <option value="solteiro">Solteiro(a)</option>
+                                <option value="casado">Casado(a)</option>
+                                <option value="divorciado">Divorciado(a)</option>
+                                <option value="viuvo">Viúvo(a)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Nome do Pai</label>
+                            <input type="text" name="nome_pai"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-3 border">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Nome da Mãe</label>
+                            <input type="text" name="nome_mae" required
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-3 border">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Telefone / WhatsApp</label>
+                            <input type="tel" name="telefone" required
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-3 border">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Email</label>
+                            <input type="email" name="email"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-3 border">
+                        </div>
+
+                        <div class="col-span-2">
+                            <label class="block text-sm font-medium text-gray-700">Endereço Completo</label>
+                            <input type="text" name="endereco" required
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-3 border">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Informações do Curso -->
+                <section>
+                    <h2 class="text-xl font-semibold text-logo-blue mb-6 border-b pb-2"><i
+                            class="fas fa-car mr-2"></i>Informações do Curso</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Categoria</label>
+                            <select name="categoria"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-3 border">
+                                <option value="A">Moto (A)</option>
+                                <option value="B">Carro (B)</option>
+                                <option value="AB">Carro e Moto (AB)</option>
+                                <option value="Adicao A">Adição A</option>
+                                <option value="Adicao B">Adição B</option>
+                                <option value="Reabilitacao">Reabilitação</option>
+                                <option value="Cassacao">Cassação</option>
+                                <option value="Habilitado">Treinamento para Habilitados</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Etapas Concluídas</label>
+                            <div class="grid grid-cols-2 gap-2 text-sm">
+                                <label class="inline-flex items-center"><input type="checkbox" name="etapas_concluidas"
+                                        value="Inicio" class="form-checkbox text-blue-600 rounded"> <span
+                                        class="ml-2">Início</span></label>
+                                <label class="inline-flex items-center"><input type="checkbox" name="etapas_concluidas"
+                                        value="Curso Teorico" class="form-checkbox text-blue-600 rounded"> <span
+                                        class="ml-2">Curso Teórico</span></label>
+                                <label class="inline-flex items-center"><input type="checkbox" name="etapas_concluidas"
+                                        value="Exame Medico" class="form-checkbox text-blue-600 rounded"> <span
+                                        class="ml-2">Exame Médico</span></label>
+                                <label class="inline-flex items-center"><input type="checkbox" name="etapas_concluidas"
+                                        value="Exame Psicotecnico" class="form-checkbox text-blue-600 rounded"> <span
+                                        class="ml-2">Exame Psicotécnico</span></label>
+                                <label class="inline-flex items-center"><input type="checkbox" name="etapas_concluidas"
+                                        value="Exame Toxicologico" class="form-checkbox text-blue-600 rounded"> <span
+                                        class="ml-2">Exame Toxicológico</span></label>
+                                <label class="inline-flex items-center"><input type="checkbox" name="etapas_concluidas"
+                                        value="Exame Teorico" class="form-checkbox text-blue-600 rounded"> <span
+                                        class="ml-2">Exame Teórico</span></label>
+                                <label class="inline-flex items-center"><input type="checkbox" name="etapas_concluidas"
+                                        value="Aulas Praticas Carro" class="form-checkbox text-blue-600 rounded"> <span
+                                        class="ml-2">Aulas Práticas Carro</span></label>
+                                <label class="inline-flex items-center"><input type="checkbox" name="etapas_concluidas"
+                                        value="Aulas Praticas Moto" class="form-checkbox text-blue-600 rounded"> <span
+                                        class="ml-2">Aulas Práticas Moto</span></label>
+                                <label class="inline-flex items-center"><input type="checkbox" name="etapas_concluidas"
+                                        value="Exame Pratico Carro" class="form-checkbox text-blue-600 rounded"> <span
+                                        class="ml-2">Exame Prático Carro</span></label>
+                                <label class="inline-flex items-center"><input type="checkbox" name="etapas_concluidas"
+                                        value="Exame Pratico Moto" class="form-checkbox text-blue-600 rounded"> <span
+                                        class="ml-2">Exame Prático Moto</span></label>
+                                <label class="inline-flex items-center"><input type="checkbox" name="etapas_concluidas"
+                                        value="Emissao" class="form-checkbox text-blue-600 rounded"> <span
+                                        class="ml-2">Emissão CNH</span></label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Valores e Pagamento -->
+                <section class="bg-blue-50 p-6 rounded-xl border border-blue-100">
+                    <h2 class="text-xl font-semibold text-logo-blue mb-6 border-b border-blue-200 pb-2"><i
+                            class="fas fa-calculator mr-2"></i>Contrato e Valores</h2>
+
+                    <div class="space-y-6">
+
+                        <!-- Seção Carro -->
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                            <h3 class="font-bold text-gray-700 mb-4 flex items-center"><i
+                                    class="fas fa-car mr-2 text-blue-600"></i>Categoria B (Carro)</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Qtd. Aulas</label>
+                                    <input type="number" id="qtd_aulas_carro" name="qtd_aulas_carro" min="0" value="10"
+                                        class="price-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2 border">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Valor Aula (R$)</label>
+                                    <input type="number" id="valor_aula_carro" name="valor_aula_carro" min="0"
+                                        step="0.01" value="60.00"
+                                        class="price-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2 border">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Aula Avulsa (R$)</label>
+                                    <input type="number" id="valor_aula_avulsa_carro" name="valor_aula_avulsa_carro"
+                                        min="0" step="0.01" value="100.00"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2 border">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Aluguel Exame (R$)</label>
+                                    <input type="number" id="aluguel_carro" name="aluguel_carro" value="200" min="0"
+                                        step="0.01"
+                                        class="price-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2 border">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Seção Moto -->
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                            <h3 class="font-bold text-gray-700 mb-4 flex items-center"><i
+                                    class="fas fa-motorcycle mr-2 text-blue-600"></i>Categoria A (Moto)</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Qtd. Aulas</label>
+                                    <input type="number" id="qtd_aulas_moto" name="qtd_aulas_moto" min="0" value="10"
+                                        class="price-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2 border">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Valor Aula (R$)</label>
+                                    <input type="number" id="valor_aula_moto" name="valor_aula_moto" min="0" step="0.01"
+                                        value="60.00"
+                                        class="price-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2 border">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Aula Avulsa (R$)</label>
+                                    <input type="number" id="valor_aula_avulsa_moto" name="valor_aula_avulsa_moto"
+                                        min="0" step="0.01" value="100.00"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2 border">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Aluguel Exame (R$)</label>
+                                    <input type="number" id="aluguel_moto" name="aluguel_moto" value="200" min="0"
+                                        step="0.01"
+                                        class="price-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2 border">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Totais -->
+                        <div class="flex flex-col md:flex-row justify-end items-center gap-4 mt-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 text-right">Desconto (R$)</label>
+                                <input type="number" id="desconto" name="desconto" value="0" min="0" step="0.01"
+                                    class="price-input mt-1 block w-40 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-white p-2 border text-green-600 font-bold text-right">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-blue-200">
+                        <div class="flex justify-between items-center text-xl md:text-2xl font-bold">
+                            <span class="text-gray-800">Total do Contrato:</span>
+                            <span id="total_display" class="text-logo-blue">R$ 500,00</span>
+                            <input type="hidden" id="total_contrato" name="total_contrato" value="500">
+                        </div>
+                    </div>
+                </section>
+
+                <div class="pt-4">
+                    <button type="submit" id="submitBtn"
+                        class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-4 px-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                        <span id="btnText">Confirmar Inscrição</span>
+                        <i class="fas fa-check-circle ml-2"></i>
+                    </button>
+                    <p id="feedbackMessage" class="mt-4 text-center font-semibold hidden"></p>
+                </div>
+
+            </form>
+        </main>
+
+        <footer class="text-center text-gray-500 text-sm mt-10 mb-4">
+            &copy; 2024 Autoescola Aline. Uso interno.
+        </footer>
+    </div>
+
+    <script>
+        // Lógica de Cálculo Dinâmico
+        const inputs = document.querySelectorAll('.price-input');
+        const totalDisplay = document.getElementById('total_display');
+        const totalInput = document.getElementById('total_contrato');
+
+        function calculateTotal() {
+            const qtdAulasCarro = parseFloat(document.getElementById('qtd_aulas_carro').value) || 0;
+            const qtdAulasMoto = parseFloat(document.getElementById('qtd_aulas_moto').value) || 0;
+            const valorAulaCarro = parseFloat(document.getElementById('valor_aula_carro').value) || 0;
+            const valorAulaMoto = parseFloat(document.getElementById('valor_aula_moto').value) || 0;
+            const aluguelCarro = parseFloat(document.getElementById('aluguel_carro').value) || 0;
+            const aluguelMoto = parseFloat(document.getElementById('aluguel_moto').value) || 0;
+            const desconto = parseFloat(document.getElementById('desconto').value) || 0;
+
+            const total = (qtdAulasCarro * valorAulaCarro) + (qtdAulasMoto * valorAulaMoto) + aluguelCarro + aluguelMoto - desconto;
+
+            // Formatar para moeda Brasileira
+            const totalFormatado = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            totalDisplay.textContent = totalFormatado;
+            totalInput.value = total.toFixed(2);
+        }
+
+        // Adicionar Listeners em todos os inputs que afetam o preço
+        inputs.forEach(input => {
+            input.addEventListener('input', calculateTotal);
+        });
+
+        // Calcular inicialmente
+        calculateTotal();
+
+
+        // Envio para o Webhook
+        const form = document.getElementById('registrationForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const feedback = document.getElementById('feedbackMessage');
+
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            // Loading state
+            submitBtn.disabled = true;
+            btnText.textContent = "Enviando...";
+            submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+            feedback.classList.add('hidden');
+
+            // Coletar dados incluindo checkboxes
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            // Tratar checkboxes (multiselect)
+            data.etapas_concluidas = formData.getAll('etapas_concluidas');
+
+            // Garantir números corretamente
+            const numberFields = ['qtd_aulas_carro', 'qtd_aulas_moto', 'valor_aula_carro', 'valor_aula_moto', 'valor_aula_avulsa_carro', 'valor_aula_avulsa_moto', 'aluguel_carro', 'aluguel_moto', 'desconto', 'total_contrato'];
+            numberFields.forEach(field => {
+                if (data[field]) {
+                    data[field] = Number(data[field]);
+                    // Se for NaN, volta para 0
+                    if (isNaN(data[field])) data[field] = 0;
+                } else {
+                    data[field] = 0;
+                }
+            });
+
+            console.log("Enviando dados:", data);
+
+            try {
+                const response = await fetch('https://n8n.matheusgodoy.pro/webhook-test/autoescola-inscricao', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                console.log("Status da resposta:", response.status);
+
+                if (response.ok) {
+                    feedback.textContent = "Inscrição realizada com sucesso!";
+                    feedback.className = "mt-4 text-center font-semibold text-green-600 block";
+                    form.reset();
+                    // Resetar cálculo visual
+                    document.getElementById('qtd_aulas_carro').value = 10;
+                    document.getElementById('qtd_aulas_moto').value = 10;
+                    document.getElementById('valor_aula_carro').value = 60;
+                    document.getElementById('valor_aula_moto').value = 60;
+                    document.getElementById('valor_aula_avulsa_carro').value = 100;
+                    document.getElementById('valor_aula_avulsa_moto').value = 100;
+                    document.getElementById('aluguel_carro').value = 200;
+                    document.getElementById('aluguel_moto').value = 200;
+                    document.getElementById('desconto').value = 0;
+                    calculateTotal();
+                } else {
+                    const errorText = await response.text();
+                    console.error("Erro do servidor:", errorText);
+                    throw new Error(`Erro no servidor: ${response.status} - ${errorText || response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Erro detalhado:', error);
+                feedback.textContent = `Erro ao enviar: ${error.message}`;
+                feedback.className = "mt-4 text-center font-semibold text-red-600 block";
+            } finally {
+                submitBtn.disabled = false;
+                btnText.textContent = "Confirmar Inscrição";
+                submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+            }
+        });
+
+        // Lógica de Login
+        const passwordModal = document.getElementById('passwordModal');
+        const mainContent = document.getElementById('mainContent');
+        const loginForm = document.getElementById('loginForm');
+        const passwordInput = document.getElementById('accessPassword');
+        const loginError = document.getElementById('loginError');
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const password = passwordInput.value;
+
+            if (password === 'Aline123@') {
+                // Sucesso
+                passwordModal.classList.add('opacity-0', 'pointer-events-none', 'transition-opacity', 'duration-500');
+                setTimeout(() => {
+                    passwordModal.style.display = 'none';
+                }, 500);
+
+                // Remove blur e libera interação
+                mainContent.classList.remove('filter', 'blur-lg', 'pointer-events-none');
+            } else {
+                // Erro
+                loginError.classList.remove('hidden');
+                passwordInput.classList.add('border-red-500');
+                passwordInput.value = '';
+                passwordInput.focus();
+            }
+        });
+    </script>
 </body>
+
 </html>
