@@ -108,6 +108,16 @@
             opacity: 1;
             animation: fadeIn 0.5s ease-out forwards;
         }
+        .quote-step[hidden] { display: none; }
+        .quote-step { animation: fadeIn .3s ease-out; }
+        .quote-option { display: flex; align-items: center; gap: .75rem; padding: 1rem; border: 2px solid #e5e7eb; border-radius: .85rem; cursor: pointer; transition: border-color .2s, background .2s, transform .2s; }
+        .quote-option:hover { border-color: #1E6A9C; transform: translateY(-2px); }
+        .quote-option:has(input:checked) { border-color: #1E6A9C; background: #eff6ff; }
+        .quote-option:focus-within { outline: 3px solid #93c5fd; outline-offset: 3px; }
+        .quote-option input { accent-color: #1E6A9C; width: 1.15rem; height: 1.15rem; flex-shrink: 0; }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation: none !important; transition: none !important; }
+        }
     </style>
 
     <!-- Schema.org - Dados Estruturados para SEO Local -->
@@ -177,7 +187,7 @@
         <!-- 3. Depoimentos que já existem na página -->
         <section class="w-full max-w-5xl mt-12 sm:mt-16 text-center fade-in-element">
             <h3 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-6 sm:mb-8 px-2">
-                A melhor Autoescola de Jaboticabal segundo nossos alunos
+                Depoimentos de nossos alunos
             </h3>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8">
@@ -290,15 +300,42 @@
                     </p>
                 </div>
 
-                <!-- 5. Botão CTA que leva para o whatsapp da autoescola (Dentro do Card de Preço) -->
-                <div class="w-full">
-                    <a href="https://api.whatsapp.com/send?phone=5516999637970&text=Ol%C3%A1!%0AEncontrei%20o%20seu%20site%20e%20gostaria%20de%20um%20or%C3%A7amento%2C%20por%20favor!%0A%0A%23anuncio" 
-                       target="_blank"
-                       class="inline-flex items-center justify-center gap-2.5 sm:gap-3 w-full bg-emerald-500 hover:bg-emerald-600 active:scale-95 text-white font-bold text-base sm:text-lg md:text-xl py-3.5 sm:py-4 px-4 sm:px-6 rounded-full shadow-lg shadow-emerald-500/40 transition-all duration-300 animate-pulse-slow">
-                        <i class="fab fa-whatsapp text-2xl shrink-0"></i>
-                        <span>Pedir Orçamento no WhatsApp</span>
-                    </a>
-                </div>
+                <form id="quote-form" class="text-left" aria-label="Personalize seu atendimento">
+                    <h3 class="text-xl sm:text-2xl font-bold text-gray-800">Vamos planejar suas aulas?</h3>
+                    <p class="text-sm text-gray-600 mt-2 mb-5">Responda 3 perguntas e envie suas preferências para nossa equipe.</p>
+                    <p id="step-label" class="text-xs font-bold text-logo-blue mb-2" aria-live="polite">Pergunta 1 de 3</p>
+                    <div class="h-1.5 bg-gray-200 rounded-full mb-6 overflow-hidden" aria-hidden="true">
+                        <div id="quote-progress" class="h-full bg-blue-600 rounded-full transition-all duration-300" style="width: 33.333%"></div>
+                    </div>
+                    <fieldset class="quote-step" data-step="0">
+                        <legend class="font-semibold mb-4" tabindex="-1">Quais categorias pretende fazer?</legend>
+                        <div class="space-y-3 text-sm">
+                            <label class="quote-option"><input type="radio" name="category" value="Carro e moto" required> Carro e moto</label>
+                            <label class="quote-option"><input type="radio" name="category" value="Só carro" required> Só carro</label>
+                            <label class="quote-option"><input type="radio" name="category" value="Só moto" required> Só moto</label>
+                        </div>
+                    </fieldset>
+                    <fieldset class="quote-step" data-step="1" hidden disabled>
+                        <legend class="font-semibold mb-4" tabindex="-1">Quantas aulas pretende fazer no total?</legend>
+                        <label for="lesson-count" class="block text-sm text-gray-600 mb-2">Total de aulas desejadas</label>
+                        <input id="lesson-count" name="lessons" type="number" min="1" step="1" required inputmode="numeric" placeholder="Ex.: 10" class="w-full border-2 border-gray-200 rounded-xl p-4 text-lg focus:outline-none focus:border-blue-600">
+                        <p class="text-xs text-gray-500 mt-3">Se escolher carro e moto, informe a soma das aulas das duas categorias.</p>
+                    </fieldset>
+                    <fieldset class="quote-step" data-step="2" hidden disabled>
+                        <legend class="font-semibold mb-4" tabindex="-1">Já fez alguma etapa?</legend>
+                        <div class="space-y-3 text-sm">
+                            <label class="quote-option"><input type="radio" name="stage" value="Fiz tudo, só faltam as aulas" required> Fiz tudo, só faltam as aulas</label>
+                            <label class="quote-option"><input type="radio" name="stage" value="Não fiz nada e quero dar início" required> Não fiz nada e quero dar início</label>
+                            <label class="quote-option"><input type="radio" name="stage" value="Fiz algumas e preciso continuar" required> Fiz algumas e preciso continuar</label>
+                        </div>
+                    </fieldset>
+                    <div class="flex items-center gap-3 mt-6">
+                        <button id="quote-back" type="button" hidden class="text-sm font-semibold text-gray-600 py-3 px-2">Voltar</button>
+                        <button id="quote-next" type="submit" class="flex-1 bg-blue-700 hover:bg-blue-800 text-white font-bold py-4 px-4 rounded-xl transition-colors">Continuar <span aria-hidden="true">→</span></button>
+                    </div>
+                    <p class="text-xs text-gray-500 text-center mt-3">Na última etapa, suas respostas serão levadas para o WhatsApp.</p>
+                </form>
+                <noscript><p class="mt-4 text-sm">Para personalizar seu atendimento, ative o JavaScript ou <a class="underline text-logo-blue" href="https://api.whatsapp.com/send?phone=5516999637970">fale com nossa equipe pelo WhatsApp</a>.</p></noscript>
 
             </div>
         </section>
@@ -310,5 +347,52 @@
 
     </div>
 
+<script>
+    (() => {
+        const form = document.getElementById('quote-form');
+        const steps = [...form.querySelectorAll('.quote-step')];
+        const back = document.getElementById('quote-back');
+        const next = document.getElementById('quote-next');
+        let current = 0;
+        function showStep(index) {
+            current = index;
+            steps.forEach((step, i) => {
+                step.hidden = i !== index;
+                step.disabled = i !== index;
+            });
+            back.hidden = index === 0;
+            document.getElementById('step-label').textContent = `Pergunta ${index + 1} de 3`;
+            document.getElementById('quote-progress').style.width = `${(index + 1) / 3 * 100}%`;
+            next.textContent = index === 2 ? 'Enviar pelo WhatsApp' : 'Continuar →';
+            next.classList.toggle('bg-emerald-600', index === 2);
+            next.classList.toggle('hover:bg-emerald-700', index === 2);
+            next.classList.toggle('bg-blue-700', index !== 2);
+            next.classList.toggle('hover:bg-blue-800', index !== 2);
+            steps[index].querySelector('legend').focus();
+        }
+        back.addEventListener('click', () => showStep(current - 1));
+        form.addEventListener('submit', event => {
+            event.preventDefault();
+            if (!form.reportValidity()) return;
+            if (current < steps.length - 1) {
+                showStep(current + 1);
+                return;
+            }
+            const category = form.querySelector('[name="category"]:checked').value;
+            const lessons = document.getElementById('lesson-count').value;
+            const stage = form.querySelector('[name="stage"]:checked').value;
+            const message = `Olá! Encontrei o site e gostaria de um orçamento.
+
+Categorias: ${category}
+Total de aulas desejadas: ${lessons}
+Minha etapa atual: ${stage}
+
+Vi que o valor é R$ 120,00 por aula prática individual de 1 hora.
+
+#anuncio`;
+            window.open(`https://api.whatsapp.com/send?phone=5516999637970&text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
+        });
+    })();
+</script>
 </body>
 </html>
